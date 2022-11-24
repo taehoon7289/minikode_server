@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.ir.backend.js.compile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
@@ -35,9 +36,11 @@ subprojects {
 
     dependencies {
         //spring boot
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-        implementation("org.springframework.boot:spring-boot-starter-security")
+//        implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.boot:spring-boot-starter-web")
+//        implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
         implementation("org.springframework.boot:spring-boot-starter")
@@ -48,15 +51,18 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+        // log
+        implementation("io.github.microutils:kotlin-logging:3.0.4")
+
+        // h2
+        runtimeOnly("com.h2database:h2")
+
+
     }
 
     dependencyManagement {
         imports {
             mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-        }
-
-        dependencies {
-            dependency("net.logstash.logback:logstash-logback-encoder:6.6")
         }
     }
 
@@ -74,6 +80,14 @@ subprojects {
     configurations {
         compileOnly {
             extendsFrom(configurations.annotationProcessor.get())
+        }
+        all {
+            resolutionStrategy {
+                // don't cache changing modules at all
+
+                cacheDynamicVersionsFor(0, "seconds")
+                cacheChangingModulesFor(0, "seconds")
+            }
         }
     }
 

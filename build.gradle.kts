@@ -1,13 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.ir.backend.js.compile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     kotlin("jvm") version "1.7.21"
-    id("org.springframework.boot") version "2.7.5"
+    id("org.springframework.boot") version "2.7.6"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
-    kotlin("plugin.spring") version "1.6.21" apply false
-    kotlin("plugin.jpa") version "1.6.21" apply false
+    kotlin("plugin.spring") version "1.6.21"
+    kotlin("plugin.jpa") version "1.6.21"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_11
@@ -36,33 +35,20 @@ subprojects {
 
     dependencies {
         //spring boot
-        implementation("org.springframework.boot:spring-boot-starter-jdbc")
-        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//        implementation("org.springframework.boot:spring-boot-starter-security")
-        implementation("org.springframework.boot:spring-boot-starter-web")
-//        implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-        developmentOnly("org.springframework.boot:spring-boot-devtools")
-        implementation("org.springframework.boot:spring-boot-starter")
-        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
-
         //kotlin
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
         // log
         implementation("io.github.microutils:kotlin-logging:3.0.4")
-
-        // h2
-        runtimeOnly("com.h2database:h2")
-
 
     }
 
     dependencyManagement {
         imports {
             mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+//            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
         }
     }
 
@@ -97,12 +83,38 @@ subprojects {
 //api <- jpa 의존
 project(":api_common") {
     dependencies {
+        implementation("org.springframework.boot:spring-boot-starter")
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+//        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+//        implementation("org.springframework.boot:spring-boot-starter-webflux")
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+        developmentOnly("org.springframework.boot:spring-boot-devtools")
+        // h2
+        runtimeOnly("com.h2database:h2")
+
         implementation(project(":jpa"))
+    }
+}
+
+project(":cloud_config") {
+    extra["springCloudVersion"] = "2021.0.5"
+    dependencies {
+        implementation("org.springframework.cloud:spring-cloud-config-server")
+    }
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        }
     }
 }
 
 //jpa 설정
 project(":jpa") {
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    }
     val jar: Jar by tasks
     val bootJar: BootJar by tasks
 

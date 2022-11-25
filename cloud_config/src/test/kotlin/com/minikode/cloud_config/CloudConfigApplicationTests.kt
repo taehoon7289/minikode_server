@@ -1,10 +1,10 @@
-package com.minikode.jpa
+package com.minikode.cloud_config
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
-//@SpringBootTest
-class JpaApplicationTests {
+@SpringBootTest
+class CloudConfigApplicationTests {
 
     @Test
     fun contextLoads() {

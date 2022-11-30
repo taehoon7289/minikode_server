@@ -7,18 +7,19 @@ plugins {
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
+    kotlin("kapt") version "1.7.21"
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_11
+java.targetCompatibility = JavaVersion.VERSION_11
 
 allprojects {
     group = "com.minikode"
-    version = "0.0.1-SNAPSHOT"
+    version = "0.0.1"
 
     repositories {
         mavenCentral()
     }
-
 }
 
 subprojects {
@@ -45,10 +46,15 @@ subprojects {
 
     }
 
+    extra["springCloudVersion"] = "2021.0.5"
+
     dependencyManagement {
         imports {
             mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
 //            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        }
+        imports {
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
         }
     }
 
@@ -91,22 +97,28 @@ project(":api_common") {
 //        implementation("org.springframework.boot:spring-boot-starter-webflux")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+        implementation("org.springframework.cloud:spring-cloud-starter-config")
+        implementation("org.springframework.cloud:spring-cloud-config-client")
+        implementation("org.springframework.boot:spring-boot-starter-actuator")
         // h2
         runtimeOnly("com.h2database:h2")
 
         implementation(project(":jpa"))
+
+//        testImplementation("org.springframework.boot:spring-boot-starter-test") {
+//            exclude("org.springframework.boot:spring-boot-starter-test")
+//        }
+
+
     }
+
 }
 
 project(":cloud_config") {
-    extra["springCloudVersion"] = "2021.0.5"
+
     dependencies {
         implementation("org.springframework.cloud:spring-cloud-config-server")
-    }
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-        }
     }
 }
 
@@ -115,9 +127,11 @@ project(":jpa") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     }
-    val jar: Jar by tasks
+    // bootJar 비활성
     val bootJar: BootJar by tasks
-
     bootJar.enabled = false
+    // jar 활성
+    val jar: Jar by tasks
     jar.enabled = true
+
 }

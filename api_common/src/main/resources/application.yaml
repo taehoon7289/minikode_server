@@ -1,0 +1,9 @@
+spring:
+  config:
+    import: "optional:configserver:"
+
+const:
+  profile: ""
+  log: ""
+  init-command: ""
+  test-flag: true

@@ -90,17 +90,18 @@ subprojects {
 
 }
 
-//api <- jpa 의존
 project(":api_common") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter")
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+        implementation("org.springframework.boot:spring-boot-starter-aop")
 //        implementation("org.springframework.boot:spring-boot-starter-security")
 //        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
         implementation("org.springframework.cloud:spring-cloud-starter-config")
@@ -109,6 +110,7 @@ project(":api_common") {
         // h2
         runtimeOnly("com.h2database:h2")
 
+        // jpa 의존
         implementation(project(":jpa"))
 
 //        testImplementation("org.springframework.boot:spring-boot-starter-test") {

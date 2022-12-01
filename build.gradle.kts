@@ -2,11 +2,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
-    kotlin("jvm") version "1.7.21"
     id("org.springframework.boot") version "2.7.6"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
-    kotlin("plugin.spring") version "1.6.21"
-    kotlin("plugin.jpa") version "1.6.21"
+    kotlin("jvm") version "1.7.21"
+    kotlin("plugin.spring") version "1.7.21"
+    kotlin("plugin.jpa") version "1.7.21"
     kotlin("kapt") version "1.7.21"
 }
 
@@ -33,6 +33,7 @@ subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "kotlin-spring") //all-open
     apply(plugin = "kotlin-jpa")
+    apply(plugin = "kotlin-kapt")
 
     dependencies {
         //spring boot
@@ -43,6 +44,9 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         // log
         implementation("io.github.microutils:kotlin-logging:3.0.4")
+        // querydsl
+        implementation("com.querydsl:querydsl-jpa:5.0.0")
+        kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 
     }
 
@@ -93,10 +97,11 @@ project(":api_common") {
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 //        implementation("org.springframework.boot:spring-boot-starter-security")
-        implementation("org.springframework.boot:spring-boot-starter-web")
-//        implementation("org.springframework.boot:spring-boot-starter-webflux")
+//        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-//        developmentOnly("org.springframework.boot:spring-boot-devtools")
+        developmentOnly("org.springframework.boot:spring-boot-devtools")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
         implementation("org.springframework.cloud:spring-cloud-starter-config")
         implementation("org.springframework.cloud:spring-cloud-config-client")

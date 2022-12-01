@@ -15,7 +15,6 @@ class BoardService(
 
     @Transactional
     fun get(): String {
-        logger.debug { "get" }
         val boardEntities = boardEntityRepository.findAll()
         return boardEntities.map { it.uuid }.joinToString(",")
     }

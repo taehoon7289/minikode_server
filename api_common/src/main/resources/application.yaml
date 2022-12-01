@@ -1,9 +1,3 @@
-spring:
-  config:
-    import: "optional:configserver:"
-
-const:
-  profile: ""
-  log: ""
-  init-command: ""
-  test-flag: true
+#spring:
+#  config:
+#    import: "optional:configserver:http://localhost:8090"

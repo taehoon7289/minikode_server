@@ -19,19 +19,10 @@ class BoardController(
 
     @GetMapping("/")
     fun getBoards(): String {
-//        boardService.get()
 
-//        logger.debug { cloudConfigConst.profile }
-        logger.debug { cloudConfigConst.log }
-        logger.debug { cloudConfigConst.initCommand }
-        logger.debug { cloudConfigConst.testFlag }
-
-        logger.debug("cloudConfigConst.log ${cloudConfigConst.log}")
-        logger.info("cloudConfigConst.log ${cloudConfigConst.log}")
-        logger.info("cloudConfigConst.initCommand ${cloudConfigConst.initCommand}")
-
-        logger.debug(boardService.get())
-        return "boards"
+        logger.debug("cloudConfigConst.debugFlag ${cloudConfigConst.debugFlag}")
+        logger.info("cloudConfigConst.debugFlag ${cloudConfigConst.debugFlag}")
+        return boardService.get()
     }
 
 }

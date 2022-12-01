@@ -3,7 +3,7 @@ spring:
     import: "optional:configserver:http://localhost:8090"
   cloud:
     config:
-      name: config
+      name: api
       fail-fast: true
       retry:
         initial-interval: 1000
@@ -35,8 +35,19 @@ spring:
       ddl-auto: create
     show-sql: true
 
+#management:
+#  endpoint:
+#    web:
+#      exposure:
+#        include: '*'
+
 management:
-  endpoint:
+  endpoints:
     web:
       exposure:
-        include: '*'
+        include: ["env", "refresh"]
+
+logging:
+  level:
+    root: INFO
+    com.minikode: DEBUG

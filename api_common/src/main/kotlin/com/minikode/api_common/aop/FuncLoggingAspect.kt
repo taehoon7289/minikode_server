@@ -1,5 +1,9 @@
 package com.minikode.api_common.aop
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
@@ -12,36 +16,22 @@ import org.springframework.util.StopWatch
 
 @Aspect
 @Component
-class ExecutionTimer {
+class FuncLoggingAspect {
 
     private val logger = KotlinLogging.logger { }
 
-    @Pointcut("@annotation(com.minikode.api_common.aop.ExeTimer)")
-    fun timer() {
-    }
+    @Pointcut("execution(@FuncLogging * *.*(..))")
+    fun log() {}
 
-    @Around("timer()")
-    fun AssumeExecutionTime(joinPoint: ProceedingJoinPoint) {
+    @Around("log()")
+    fun executeLog(joinPoint: ProceedingJoinPoint) {
 
         val method = (joinPoint.signature as MethodSignature).method
-
-
         val stopWatch = StopWatch()
         stopWatch.start()
-        if (KotlinDetector.isSuspendingFunction(method)) {
-//            @Suppress("UNCHECKED_CAST")
-//            val continuation = joinPoint.args.last() as Continuation<Any?>
-//
-//            MDC.put("traceId", findOrGenerateTraceId())
-//
-//            val newContext = continuation.context.plus(MDCContext())
-//            val newContinuation = Continuation<Any?>(newContext) { continuation.resumeWith(it) }
-//
-            val newArgs = joinPoint.args.dropLast(1)
-            joinPoint.proceed(newArgs.toTypedArray())
-        } else {
-            joinPoint.proceed()
-        }
+        logger.debug { "start!!" }
+        joinPoint.proceed()
+        logger.debug { "stop!!" }
         stopWatch.stop()
         val result = stopWatch.totalTimeMillis
         logger.debug {
@@ -51,6 +41,12 @@ class ExecutionTimer {
             """.trimIndent()
 
         }
+    }
+
+    private fun temp(joinPoint: ProceedingJoinPoint): Any? = runBlocking {
+        return@runBlocking CoroutineScope(Dispatchers.IO).async {
+            joinPoint.proceed()
+        }.await()
     }
 
 }

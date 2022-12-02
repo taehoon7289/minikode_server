@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @Configuration
-@EntityScan("com.minikode.jpa.*")
+@EntityScan("com.minikode.jpa.entity")
 @EnableJpaRepositories("com.minikode.jpa.repository")
 class JpaConfig {
 }

@@ -35,6 +35,11 @@ spring:
       ddl-auto: create
     show-sql: true
 
+  r2dbc:
+    url: r2dbc:h2:mem:///minikode
+    username: sa
+    password:
+
 #management:
 #  endpoint:
 #    web:
@@ -45,7 +50,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: ["env", "refresh"]
+        include: [ "env", "refresh" ]
 
 logging:
   level:

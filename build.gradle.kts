@@ -95,6 +95,7 @@ project(":api_common") {
         implementation("org.springframework.boot:spring-boot-starter")
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+        implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
         implementation("org.springframework.boot:spring-boot-starter-aop")
 //        implementation("org.springframework.boot:spring-boot-starter-security")
 //        implementation("org.springframework.boot:spring-boot-starter-web")
@@ -107,8 +108,12 @@ project(":api_common") {
         implementation("org.springframework.cloud:spring-cloud-starter-config")
         implementation("org.springframework.cloud:spring-cloud-config-client")
         implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+
+
         // h2
         runtimeOnly("com.h2database:h2")
+        runtimeOnly("io.r2dbc:r2dbc-h2")
 
         // jpa 의존
         implementation(project(":jpa"))
@@ -133,6 +138,8 @@ project(":cloud_config") {
 project(":jpa") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+//        implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+        implementation("io.projectreactor:reactor-core:3.5.0")
     }
     // bootJar 비활성
     val bootJar: BootJar by tasks

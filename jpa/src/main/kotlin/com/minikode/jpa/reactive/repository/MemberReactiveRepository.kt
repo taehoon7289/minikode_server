@@ -1,9 +1,9 @@
 package com.minikode.jpa.reactive.repository;
 
 import com.minikode.jpa.entity.MemberEntity
-import org.springframework.data.repository.reactive.ReactiveCrudRepository
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import java.util.*
 
 interface MemberReactiveRepository :
-    ReactiveCrudRepository<MemberEntity, UUID> {
+    CoroutineCrudRepository<MemberEntity, UUID> {
 }

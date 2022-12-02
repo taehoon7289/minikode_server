@@ -1,12 +1,9 @@
 package com.minikode.jpa.reactive.repository;
 
 import com.minikode.jpa.entity.BoardEntity
-import org.springframework.data.repository.reactive.ReactiveCrudRepository
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import java.util.*
 
-interface BoardReactiveRepository : ReactiveCrudRepository<BoardEntity, UUID> {
-
-    fun findByTitleLike(title: String): MutableList<BoardEntity>
-
+interface BoardReactiveRepository : CoroutineCrudRepository<BoardEntity, UUID> {
 
 }

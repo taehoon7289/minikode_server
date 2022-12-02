@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import mu.KotlinLogging
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/board")
 class BoardController(
     private val boardService: BoardService,
-    private val memberReactiveRepository: MemberReactiveRepository,
     private val cloudConfigConst: CloudConfigConst,
 ) {
 
@@ -31,14 +31,19 @@ class BoardController(
     }
 
     @GetMapping("/blocking")
-    suspend fun getBoardsBlocking(): String {
+    fun getBoardsBlocking(): String {
         return boardService.blockingGet()
     }
 
-//    @GetMapping("/reactive")
-//    suspend fun getBoardsReactive(): String {
-//        return boardService.getReactive()
-//    }
+    @GetMapping("/reactive")
+    suspend fun getBoardsReactive(): String {
+        return boardService.getReactive()
+    }
+
+    @GetMapping("/reactive2")
+    suspend fun getBoardsReactive2(): ResponseEntity<String> {
+        return ResponseEntity.ok(boardService.getReactive2())
+    }
 
 
 }

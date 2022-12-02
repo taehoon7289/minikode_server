@@ -5,10 +5,10 @@ import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
-import javax.persistence.Table
 
 @Entity
-@Table(name = "board", catalog = "minikode", indexes = [])
+@org.springframework.data.relational.core.mapping.Table
+@javax.persistence.Table(name = "board", catalog = "minikode", indexes = [])
 class BoardEntity(
     @Column(name = "title", nullable = false) var title: String,
     @Column(name = "description", nullable = true) var description: String,

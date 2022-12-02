@@ -138,7 +138,7 @@ project(":cloud_config") {
 project(":jpa") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//        implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+        implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
         implementation("io.projectreactor:reactor-core:3.5.0")
     }
     // bootJar 비활성

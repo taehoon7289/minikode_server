@@ -5,6 +5,7 @@ import com.minikode.api_common.projection.BoardInfo
 //import com.minikode.api_common.repository.BoardRepositorySupport
 import com.minikode.api_common.service.BoardService
 import com.minikode.jpa.entity.BoardEntity
+import com.minikode.jpa.reactive.repository.MemberReactiveRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/board")
 class BoardController(
     private val boardService: BoardService,
+    private val memberReactiveRepository: MemberReactiveRepository,
     private val cloudConfigConst: CloudConfigConst,
 ) {
 
@@ -33,6 +35,10 @@ class BoardController(
         return boardService.blockingGet()
     }
 
+//    @GetMapping("/reactive")
+//    suspend fun getBoardsReactive(): String {
+//        return boardService.getReactive()
+//    }
 
 
 }

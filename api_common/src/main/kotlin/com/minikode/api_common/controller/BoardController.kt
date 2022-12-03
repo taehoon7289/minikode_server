@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 
 @RestController
@@ -45,5 +47,10 @@ class BoardController(
         return ResponseEntity.ok(boardService.getReactive2())
     }
 
+    @GetMapping("/reactive3")
+    suspend fun getBoardsReactive3(): ResponseEntity<String> {
+        return ResponseEntity.ok().body("ddd")
+//        return ResponseEntity.ok().body(boardService.getReactive3().)
+    }
 
 }

@@ -4,6 +4,7 @@ import com.minikode.api_common.aop.CoroutineFuncLogging
 import com.minikode.api_common.aop.FuncLogging
 import com.minikode.jpa.blocking.repository.BoardRepository
 import com.minikode.jpa.entity.BoardEntity
+import com.minikode.jpa.reactive.repository.BoardR2dbcRepository
 import com.minikode.jpa.reactive.repository.BoardReactiveRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,12 +13,15 @@ import kotlinx.coroutines.delay
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 
 @Service
 class BoardService(
     private val boardRepository: BoardRepository,
     private val boardReactiveRepository: BoardReactiveRepository,
+    private val boardR2dbcRepository: BoardR2dbcRepository,
 //    private val boardRepositorySupport: BoardRepositorySupport,
 ) {
 
@@ -75,119 +79,94 @@ class BoardService(
     }
 
     @FuncLogging
-//    @Transactional(value = "transactionManager")
+    @Transactional(value = "transactionManager")
     fun blockingGet(): String {
-//        logger.debug { "1" }
-        Thread.sleep(1000)
         val boardEntity0 = BoardEntity(
             title = "0번",
             description = "0번꺼꺼",
         )
-        Thread.sleep(1000)
         boardRepository.save(boardEntity0)
         val boardEntity1 = BoardEntity(
             title = "1번",
             description = "1번꺼꺼",
         )
-//        logger.debug { "4" }
-        Thread.sleep(1000)
         boardRepository.save(boardEntity1)
-        Thread.sleep(1000)
-//        val boardEntities0 = boardRepositorySupport.get()
-//        logger.debug { "8 querydsl 엔티티 개수 : ${boardEntities0.size}" }
-        Thread.sleep(1000)
         val boardIds = mutableListOf<String>()
         boardRepository.findAll()
             .forEach { boardIds.add(it.boardId.toString()) }
-//        logger.debug { "9 jpa 엔티티 개수 : ${boardIds.size}" }
         return boardIds.joinToString(",")
     }
 
-    //    @CoroutineFuncLogging
+    @CoroutineFuncLogging
     @Transactional(value = "transactionManager")
     suspend fun getReactive(): String {
-
         val boardEntity0 = BoardEntity(
             title = "0",
             description = "0번꺼꺼",
         )
-        logger.debug { "1" }
-//        delay(1000L)
         val task0 = CoroutineScope(Dispatchers.IO).async {
-            delay(1000L)
-            logger.debug { "2" }
             boardReactiveRepository.save(boardEntity0)
         }
         val boardEntity1 = BoardEntity(
             title = "1번",
             description = "1번꺼꺼",
         )
-        logger.debug { "3" }
         val task1 = CoroutineScope(Dispatchers.IO).async {
-            delay(1000L)
-            logger.debug { "4" }
             boardReactiveRepository.save(boardEntity1)
         }
-//        delay(1000L)
-        logger.debug { "5" }
         task0.await()
         task1.await()
-//        delay(1000L)
-        logger.debug { "6" }
         val boardEntities = CoroutineScope(Dispatchers.IO).async {
-            delay(1000L)
-            logger.debug { "7" }
             boardReactiveRepository.findAll()
         }.await()
-//        delay(1000L)
         val boardIds = mutableListOf<String>()
-        logger.debug { "8" }
         boardEntities.collect { boardIds.add(it.boardId.toString()) }
-
-        logger.debug { "${boardIds}" }
-//        delay(1000L)
         return boardIds.joinToString(",")
 
     }
 
     @CoroutineFuncLogging
-//    @Transactional(value = "transactionManager")
+    @Transactional(value = "transactionManager")
     suspend fun getReactive2(): String {
 
         val boardEntity0 = BoardEntity(
             title = "0",
             description = "0번꺼꺼",
         )
-//        logger.debug { "1" }
-        delay(1000L)
-        delay(1000L)
-//        logger.debug { "2" }
         boardReactiveRepository.save(boardEntity0)
         val boardEntity1 = BoardEntity(
             title = "1번",
             description = "1번꺼꺼",
         )
-//        logger.debug { "3" }
-        delay(1000L)
-//        logger.debug { "4" }
         boardReactiveRepository.save(boardEntity1)
-//        delay(1000L)
-//        logger.debug { "5" }
-//        task0.await()
-//        task1.await()
-//        delay(1000L)
-//        logger.debug { "6" }
-        delay(1000L)
-//        logger.debug { "7" }
         val boardEntities = boardReactiveRepository.findAll()
-        delay(1000L)
         val boardIds = mutableListOf<String>()
-//        logger.debug { "8" }
         boardEntities.collect { boardIds.add(it.boardId.toString()) }
-
-//        logger.debug { "${boardIds}" }
-        delay(1000L)
         return boardIds.joinToString(",")
+
+    }
+
+    @Transactional(value = "R2dbcTransactionManager")
+    fun getReactive3(): Mono<String> {
+
+        val boardEntity0 = BoardEntity(
+            title = "0",
+            description = "0번꺼꺼",
+        )
+        boardR2dbcRepository.save(boardEntity0).subscribe()
+        val boardEntity1 = BoardEntity(
+            title = "1번",
+            description = "1번꺼꺼",
+        )
+        boardR2dbcRepository.save(boardEntity1).subscribe()
+
+        val boardIds = mutableListOf<String>()
+        boardR2dbcRepository.findAll().subscribe {
+//            logger.debug { "${it.boardId}" }
+            boardIds.add(it.boardId.toString())
+        }
+//        logger.debug { "ddd" }
+        return boardIds.joinToString(",").toMono()
 
     }
 

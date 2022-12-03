@@ -98,8 +98,8 @@ project(":api_common") {
         implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
         implementation("org.springframework.boot:spring-boot-starter-aop")
 //        implementation("org.springframework.boot:spring-boot-starter-security")
-        implementation("org.springframework.boot:spring-boot-starter-web")
-//        implementation("org.springframework.boot:spring-boot-starter-webflux")
+//        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 //        developmentOnly("org.springframework.boot:spring-boot-devtools")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
@@ -108,7 +108,9 @@ project(":api_common") {
         implementation("org.springframework.cloud:spring-cloud-starter-config")
         implementation("org.springframework.cloud:spring-cloud-config-client")
         implementation("org.springframework.boot:spring-boot-starter-actuator")
-
+        implementation("io.projectreactor:reactor-core:3.5.0")
+        // https://mvnrepository.com/artifact/io.projectreactor.kotlin/reactor-kotlin-extensions
+        implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.2.0")
 
 
         // h2
@@ -141,7 +143,6 @@ project(":jpa") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
         implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-        implementation("io.projectreactor:reactor-core:3.5.0")
     }
     // bootJar 비활성
     val bootJar: BootJar by tasks

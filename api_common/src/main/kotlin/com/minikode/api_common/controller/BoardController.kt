@@ -17,8 +17,8 @@ class BoardController(
 
     private val logger = KotlinLogging.logger { }
 
-    @GetMapping("/blocking")
-    fun getBoardsBlocking(): String {
+    @GetMapping(value = ["", "/"])
+    fun get(): String {
         return boardService.blockingGet()
     }
 

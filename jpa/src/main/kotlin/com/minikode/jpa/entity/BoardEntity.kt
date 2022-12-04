@@ -6,10 +6,6 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@org.springframework.data.relational.core.mapping.Table(
-    name = "board",
-    schema = "minikode"
-)
 @javax.persistence.Table(name = "board", catalog = "minikode", indexes = [])
 class BoardEntity(
 //    @Id

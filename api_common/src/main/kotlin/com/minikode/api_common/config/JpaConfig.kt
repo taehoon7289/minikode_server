@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @Configuration
 @EntityScan("com.minikode.jpa.entity")
-@EnableJpaRepositories("com.minikode.jpa.blocking.repository")
+@EnableJpaRepositories("com.minikode.jpa.repository")
 class JpaConfig {
 }

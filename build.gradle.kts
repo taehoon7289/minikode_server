@@ -15,7 +15,7 @@ java.targetCompatibility = JavaVersion.VERSION_11
 
 allprojects {
     group = "com.minikode"
-    version = "0.0.1"
+    version = "0.0.1-SNAPSHOT"
 
     repositories {
         mavenCentral()
@@ -55,7 +55,6 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-//            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
         }
         imports {
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
@@ -80,7 +79,6 @@ subprojects {
         all {
             resolutionStrategy {
                 // don't cache changing modules at all
-
                 cacheDynamicVersionsFor(0, "seconds")
                 cacheChangingModulesFor(0, "seconds")
             }
@@ -95,37 +93,24 @@ project(":api_common") {
         implementation("org.springframework.boot:spring-boot-starter")
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-        implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
         implementation("org.springframework.boot:spring-boot-starter-aop")
 //        implementation("org.springframework.boot:spring-boot-starter-security")
-//        implementation("org.springframework.boot:spring-boot-starter-web")
-        implementation("org.springframework.boot:spring-boot-starter-webflux")
+        implementation("org.springframework.boot:spring-boot-starter-web")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-//        developmentOnly("org.springframework.boot:spring-boot-devtools")
+        developmentOnly("org.springframework.boot:spring-boot-devtools")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
         implementation("org.springframework.cloud:spring-cloud-starter-config")
         implementation("org.springframework.cloud:spring-cloud-config-client")
         implementation("org.springframework.boot:spring-boot-starter-actuator")
-        implementation("io.projectreactor:reactor-core:3.5.0")
-        // https://mvnrepository.com/artifact/io.projectreactor.kotlin/reactor-kotlin-extensions
-        implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.2.0")
-
 
         // h2
         implementation("com.h2database:h2")
-        runtimeOnly("io.r2dbc:r2dbc-h2")
-        runtimeOnly("org.mariadb:r2dbc-mariadb")
         runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
         // jpa 의존
         implementation(project(":jpa"))
-
-//        testImplementation("org.springframework.boot:spring-boot-starter-test") {
-//            exclude("org.springframework.boot:spring-boot-starter-test")
-//        }
-
 
     }
 
@@ -142,7 +127,6 @@ project(":cloud_config") {
 project(":jpa") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-        implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     }
     // bootJar 비활성
     val bootJar: BootJar by tasks
@@ -152,3 +136,9 @@ project(":jpa") {
     jar.enabled = true
 
 }
+
+val bootJar: BootJar by tasks
+bootJar.enabled = false
+//
+//val jar: Jar by tasks
+//jar.enabled = false

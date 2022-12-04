@@ -1,4 +1,4 @@
-package com.minikode.jpa.blocking.repository;
+package com.minikode.jpa.repository;
 
 import com.minikode.jpa.entity.MemberEntity
 import org.springframework.data.jpa.repository.JpaRepository

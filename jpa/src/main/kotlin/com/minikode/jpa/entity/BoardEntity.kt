@@ -6,26 +6,28 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@javax.persistence.Table(name = "board", catalog = "minikode", indexes = [])
+@Table(
+    name = "board", catalog = "minikode", indexes = [Index(
+        name = "idx_board_created_date", columnList = "createdDate"
+    )]
+)
 class BoardEntity(
-//    @Id
-//    @Type(type = "uuid-char")
-//    @GeneratedValue(generator = "uuid2")
-//    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-//    @Column(
-//        name = "boardId",
-//        nullable = false,
-//        columnDefinition = "VARCHAR(36) not null comment 'pk'"
-//    )
-//    var boardId: UUID? = null,
+    title: String, description: String?,
+) : BaseEntity() {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var boardId: Long? = null,
+    @Type(type = "uuid-char")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(
+        columnDefinition = "VARCHAR(36) not null comment 'pk'"
+    )
+    var boardId: UUID? = null
 
-    @Column(name = "title", nullable = false) var title: String?,
-    @Column(name = "description", nullable = true) var description: String?,
-) {
+    @Column(name = "title", nullable = false)
+    var title = title
 
-
+    @Column(name = "description", nullable = true)
+    var description = description
 
 }

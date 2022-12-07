@@ -1,26 +1,41 @@
 package com.minikode.jpa.entity
 
+import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Type
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
-@Table(name = "member", catalog = "minikode", indexes = [])
+@Table(
+    name = "member",
+    catalog = "minikode",
+    indexes = [Index(
+        name = "idx_member_created_date",
+        columnList = "createdDate"
+    )]
+)
 class MemberEntity(
-    @Column(name = "name", nullable = false)
-    var name: String? = null,
-) {
+    accessId: String,
+    name: String,
+    email: String?,
+) : BaseEntity() {
+
     @Id
-//    @Type(type = "uuid-char")
+    @Type(type = "uuid-char")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(
-        name = "memberId",
-        nullable = false,
         columnDefinition = "VARCHAR(36) not null comment 'pk'"
     )
-    var memberId: String = UUID.randomUUID().toString()
+    var memberId: UUID? = null
 
+    @Column(name = "accessId", nullable = false)
+    var accessId = accessId
+
+    @Column(name = "name", nullable = true)
+    var name = name
+
+    @Column(name = "email", nullable = true)
+    var email = email
 
 }

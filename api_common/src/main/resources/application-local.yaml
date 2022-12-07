@@ -13,41 +13,37 @@ spring:
       request-read-timeout: 10000
       uri: http://localhost:8090
 
-#  h2:
-#    console:
-#      enabled: true
-#      path: /h2-console
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+#  datasource:
+#    hikari:
+##      jdbc-url: jdbc:mariadb://localhost:3306/minikode?useUnicode=true&characterEncoding=utf-8
+#      jdbc-url: jdbc:h2:~/minikode;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS minikode
+#    #    driver-class-name: org.mariadb.jdbc.Driver
+#    driver-class-name: org.h2.Driver
+##    username: root
+#    username: sa
+##    password: '!biobio3730@'
+#    password: ''
 
   datasource:
-    #    url: jdbc:h2:~/minikode
     hikari:
-#      jdbc-url: jdbc:h2:~/minikode;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS minikode
-      jdbc-url: jdbc:mariadb://localhost:3306/minikode?useUnicode=true&characterEncoding=utf-8
-#    driver-class-name: org.h2.Driver
-    driver-class-name: org.mariadb.jdbc.Driver
-    username: root
-    password: '!biobio3730@'
+      jdbc-url: jdbc:h2:~/minikode;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS minikode
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ''
   jpa:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.MariaDB103Dialect
-        use_sql_comments: false
+        dialect: org.hibernate.dialect.H2Dialect
+        use_sql_comments: true
     hibernate:
       ddl-auto: create
-    show-sql: false
-
-  r2dbc:
-#    url: r2dbc:h2:mem:///minikode
-    url: r2dbc:mariadb://localhost:3306/minikode
-    username: root
-    password: '!biobio3730@'
-
-#management:
-#  endpoint:
-#    web:
-#      exposure:
-#        include: '*'
+    show-sql: true
 
 management:
   endpoints:
@@ -55,20 +51,11 @@ management:
       exposure:
         include: [ "env", "refresh" ]
 
-logging:
-  level:
-    root: INFO
-    com.minikode: DEBUG
-    org:
-      springframework:
-        data:
-          r2dbc: DEBUG
-
-#server:
-#  tomcat:
-#    threads:
-#      max: 400 # 생성할 수 있는 thread의 총 개수
-#      min-spare: 20 # 항상 활성화 되어있는(idle) thread의 개수
-#    max-connections: 16192 # 수립가능한 connection의 총 개수
-#    accept-count: 200 # 작업큐의 사이즈
-#    connection-timeout: 60000 # timeout 판단 기준 시간, 20초
+#logging:
+#  level:
+#    root: INFO
+#    com.minikode: DEBUG
+#    org:
+#      springframework:
+#        data:
+#          r2dbc: DEBUG

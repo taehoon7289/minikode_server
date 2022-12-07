@@ -43,7 +43,7 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         // log
-        implementation("io.github.microutils:kotlin-logging:3.0.4")
+//        implementation("io.github.microutils:kotlin-logging:3.0.4")
         // querydsl
         implementation("com.querydsl:querydsl-jpa:5.0.0")
         kapt("com.querydsl:querydsl-apt:5.0.0:jpa")

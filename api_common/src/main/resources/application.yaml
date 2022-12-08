@@ -1,5 +1,5 @@
 #spring:
 #  config:
 #    import: "optional:configserver:http://localhost:8090"
-logging:
-  config: classpath:logback-spring.xml
+#logging:
+#  config: classpath:logback-spring.xml

@@ -12,4 +12,14 @@
     <appender-ref ref="CONSOLE"/>
   </root>
 
+  <logger name="org.hibernate.SQL" additivity="false">
+    <level value = "DEBUG" />
+    <appender-ref ref="CONSOLE" />
+  </logger>
+
+  <logger name="com.minikode" additivity="false">
+    <level value = "DEBUG" />
+    <appender-ref ref="CONSOLE" />
+  </logger>
+
 </included>

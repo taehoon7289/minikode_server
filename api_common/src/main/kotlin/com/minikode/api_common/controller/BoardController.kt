@@ -19,9 +19,7 @@ class BoardController(
 
     @GetMapping(value = ["", "/"])
     fun get(): String {
-        val str =  boardService.get()
-        logger.info("str : $str")
-        return str
+        return boardService.get()
     }
 
 }

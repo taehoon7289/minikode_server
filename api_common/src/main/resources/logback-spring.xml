@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- 10초마다 파일 변화를 체크하여 갱신시킨다. -->
-<configuration scan="true" scanPeriod="10 seconds">
+<!--<configuration scan="true" scanPeriod="10 seconds">-->
 
+<!DOCTYPE configuration>
+
+<configuration>
   <!-- spring.profile에 따른 설정파일 분기 -->
   <!--  <springProfile name="prod">-->
   <!--    <property resource="logback-prod.properties"/>-->
@@ -24,14 +27,15 @@
   <property name="ERR_LOG_FILE_NAME" value="${log.config.filename}_error"/>
 
   <!-- 로그 파일 패턴 -->
-  <property name="LOG_PATTERN"
-    value="%-5level %d{yyyy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n"/>
+  <!--  <property name="LOG_PATTERN"-->
+  <!--    value="%-5level %d{yyyy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n"/>-->
 
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
   <!-- 콘솔 Appender 설정 -->
   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <pattern>${LOG_PATTERN}</pattern>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
     </encoder>
   </appender>
 
@@ -42,7 +46,7 @@
 
     <!-- 로그 패턴 설정 -->
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <pattern>${LOG_PATTERN}</pattern>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
     </encoder>
 
     <!-- 롤링 정책 -->
@@ -74,7 +78,7 @@
 
     <!-- 로그 패턴 설정 -->
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-      <pattern>${LOG_PATTERN}</pattern>
+      <pattern>${CONSOLE_LOG_PATTERN}</pattern>
     </encoder>
 
     <!-- 롤링 정책 -->
@@ -99,6 +103,12 @@
     <appender-ref ref="FILE"/>
     <appender-ref ref="ERROR"/>
   </root>
+
+  <logger name="com.minikode" level="DEBUG" additivity="false">
+    <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="FILE"/>
+    <appender-ref ref="ERROR"/>
+  </logger>
 
   <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
     <appender-ref ref="CONSOLE"/>

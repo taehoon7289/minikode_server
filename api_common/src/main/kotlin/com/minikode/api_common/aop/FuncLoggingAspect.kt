@@ -28,12 +28,12 @@ class FuncLoggingAspect {
         val proceed = joinPoint.proceed()
         stopWatch.stop()
         val result = stopWatch.totalTimeMillis
-        logger.info(
+        logger.debug(
             "\n" + """
                 실행클래스 : ${method.declaringClass.name}
                 실행메소드 : ${method.name}
                 리턴값: $proceed
-                실행시간 : "$result" ms   
+                실행시간 : $result ms   
             """.trimIndent()
         )
         return proceed

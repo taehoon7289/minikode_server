@@ -18,16 +18,16 @@ spring:
       enabled: true
       path: /h2-console
 
-#  datasource:
-#    hikari:
-##      jdbc-url: jdbc:mariadb://localhost:3306/minikode?useUnicode=true&characterEncoding=utf-8
-#      jdbc-url: jdbc:h2:~/minikode;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS minikode
-#    #    driver-class-name: org.mariadb.jdbc.Driver
-#    driver-class-name: org.h2.Driver
-##    username: root
-#    username: sa
-##    password: '!biobio3730@'
-#    password: ''
+  #  datasource:
+  #    hikari:
+  ##      jdbc-url: jdbc:mariadb://localhost:3306/minikode?useUnicode=true&characterEncoding=utf-8
+  #      jdbc-url: jdbc:h2:~/minikode;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS minikode
+  #    #    driver-class-name: org.mariadb.jdbc.Driver
+  #    driver-class-name: org.h2.Driver
+  ##    username: root
+  #    username: sa
+  ##    password: '!biobio3730@'
+  #    password: ''
 
   datasource:
     hikari:
@@ -44,6 +44,7 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+    open-in-view: false
 
 management:
   endpoints:

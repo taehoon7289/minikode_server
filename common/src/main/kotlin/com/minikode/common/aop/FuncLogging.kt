@@ -1,4 +1,4 @@
-package com.minikode.api_common.aop
+package com.minikode.common.aop
 
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.TYPE)
 @Retention(AnnotationRetention.RUNTIME)

@@ -93,8 +93,6 @@ project(":api_common") {
         implementation("org.springframework.boot:spring-boot-starter")
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-        implementation("org.springframework.boot:spring-boot-starter-aop")
-//        implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.boot:spring-boot-starter-web")
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
         developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -104,13 +102,17 @@ project(":api_common") {
         implementation("org.springframework.cloud:spring-cloud-starter-config")
         implementation("org.springframework.cloud:spring-cloud-config-client")
         implementation("org.springframework.boot:spring-boot-starter-actuator")
-
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        testImplementation("org.springframework.security:spring-security-test")
+        implementation("io.jsonwebtoken:jjwt:0.9.1")
         // h2
         implementation("com.h2database:h2")
         runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
         // jpa 의존
         implementation(project(":jpa"))
+        // common 의존
+        implementation(project(":common"))
 
     }
 
@@ -127,6 +129,23 @@ project(":cloud_config") {
 project(":jpa") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    }
+    // bootJar 비활성
+    val bootJar: BootJar by tasks
+    bootJar.enabled = false
+    // jar 활성
+    val jar: Jar by tasks
+    jar.enabled = true
+
+}
+
+//common 설정
+project(":common") {
+    dependencies {
+//        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-security")
+        testImplementation("org.springframework.security:spring-security-test")
+        implementation("org.springframework.boot:spring-boot-starter-aop")
     }
     // bootJar 비활성
     val bootJar: BootJar by tasks

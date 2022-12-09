@@ -1,37 +1,35 @@
 package com.minikode.api_common.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.minikode.api_common.jwt.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 
 @Configuration
 class SecurityConfig(
-    private val objectMapper: ObjectMapper,
     private val jwtTokenProvider: JwtTokenProvider,
-    private val jwtTokenFilterConfigurer: JwtTokenFilterConfigurer,
 ) {
 
 
     @Bean
-    fun providerSecurityFilterChain(http: HttpSecurity, jwtProvider: JwtProvider, CookieUtil: CookieUtil): SecurityFilterChain {
+    fun providerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
 
-//        http.cors()
-
+        http.httpBasic().disable()
         http.csrf().disable()
-
-//        http.exceptionHandling()
-//            .authenticationEntryPoint { request, response, authException ->
-//                response.status = HttpStatus.UNAUTHORIZED.value()
-//                throw Service
-//            }
-
-        http.apply(jwtTokenFilterConfigurer)
+        http.sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeRequests()
+            .antMatchers("/*")
+            .permitAll()
+            .and()
+            .addFilterBefore(
+                JwtTokenFilter(jwtTokenProvider),
+                UsernamePasswordAuthenticationFilter::class.java,
+            )
         return http.build()
 
     }

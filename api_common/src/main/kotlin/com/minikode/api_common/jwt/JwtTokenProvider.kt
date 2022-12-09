@@ -2,6 +2,7 @@ package com.minikode.api_common.jwt
 
 import com.minikode.common.exception.ServiceRuntimeException
 import com.minikode.common.exception.code.CommonExCode
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -13,19 +14,19 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
 import java.util.*
-import javax.servlet.http.HttpServletRequest
 
 
 @Component
 class JwtTokenProvider(
     private val userDetailsService: UserDetailsService,
-): AuthenticationProvider {
+) : AuthenticationProvider {
 
     private val logger = LoggerFactory.getLogger(JwtTokenProvider::class.java)
     private val expireTime: Long = 10000
     private val secretKey: String = "minikode"
 
     fun generateToken(authentication: Authentication): String? {
+        logger.debug("authentication.name : ${authentication.name}")
         val claims = Jwts.claims().setSubject(authentication.name)
         val now = Date()
         logger.debug("now : $now")
@@ -36,21 +37,17 @@ class JwtTokenProvider(
     }
 
     fun getAuthentication(token: String): Authentication {
-        val username: String = Jwts.parser().setSigningKey(secretKey)
-            .parseClaimsJws(token).body.subject
+        val claims: Claims =
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).body
+        val userName = claims.subject
         val userDetails: UserDetails =
-            userDetailsService.loadUserByUsername(username)
+            userDetailsService.loadUserByUsername(userName)
         return UsernamePasswordAuthenticationToken(
             userDetails, "", userDetails.authorities
         )
     }
 
-    fun resolveToken(req: HttpServletRequest): String? {
-        val bearerToken: String = req.getHeader("Authorization")
-        return if (bearerToken.startsWith("Bearer ")) {
-            bearerToken.substring(7)
-        } else null
-    }
+
 
     fun validateToken(token: String?): Boolean {
         return try {

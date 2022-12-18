@@ -15,9 +15,10 @@ import javax.persistence.*
     )]
 )
 class MemberEntity(
-    accessId: String,
-    name: String,
-    email: String?,
+    accessId: String = "",
+    password: String = "",
+    name: String = "",
+    email: String = "",
 ) : BaseEntity() {
 
     @Id
@@ -29,13 +30,19 @@ class MemberEntity(
     )
     var memberId: UUID? = null
 
-    @Column(name = "accessId", nullable = false)
+    @Column(name = "accessId", nullable = false, unique = true)
     var accessId = accessId
+
+    @Column(name = "password", nullable = true)
+    var password = password
 
     @Column(name = "name", nullable = true)
     var name = name
 
     @Column(name = "email", nullable = true)
     var email = email
+
+    @OneToMany(mappedBy = "member", cascade = [CascadeType.ALL])
+    var memberRoles: MutableList<MemberRoleEntity> = ArrayList()
 
 }

@@ -1,9 +1,6 @@
 package com.minikode.jpa.entity
 
-import com.minikode.jpa.entity.embeddable.MemberRoleEmbed
-import org.hibernate.annotations.GenericGenerator
-import org.hibernate.annotations.Type
-import java.util.*
+import com.minikode.jpa.entity.embeddable.MemberRoleId
 import javax.persistence.*
 
 @Entity
@@ -22,6 +19,10 @@ class MemberRoleEntity(
 ) : BaseEntity() {
 
     @EmbeddedId
-    var memberRoleId: MemberRoleEmbed? = null
+    var memberRoleId: MemberRoleId? = null
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_roles")
+    var member: MemberEntity? = null
 
 }

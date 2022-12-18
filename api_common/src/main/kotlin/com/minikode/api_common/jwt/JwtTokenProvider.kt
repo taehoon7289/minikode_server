@@ -1,5 +1,6 @@
 package com.minikode.api_common.jwt
 
+import com.minikode.api_common.service.impl.SecurityUserDetailServiceImpl
 import com.minikode.common.exception.ServiceRuntimeException
 import com.minikode.common.exception.code.CommonExCode
 import io.jsonwebtoken.Claims
@@ -18,11 +19,11 @@ import java.util.*
 
 @Component
 class JwtTokenProvider(
-    private val userDetailsService: UserDetailsService,
-) : AuthenticationProvider {
+    private val userDetailsService: SecurityUserDetailServiceImpl,
+) {
 
     private val logger = LoggerFactory.getLogger(JwtTokenProvider::class.java)
-    private val expireTime: Long = 10000
+    private val expireTime: Long = 100000
     private val secretKey: String = "minikode"
 
     fun generateToken(authentication: Authentication): String? {
@@ -64,22 +65,22 @@ class JwtTokenProvider(
         }
     }
 
-    override fun authenticate(authentication: Authentication?): Authentication {
-        val userDetails: AccountDetails =
-            accountDetailsService.loadUserByUsername(
-                authentication!!.principal as String
-            ) as AccountDetails
-
-
-        return UsernamePasswordAuthenticationToken(
-            userDetails.getEmail(),
-            userDetails.getPassword(),
-            userDetails.getAuthorities()
-        )
-    }
-
-    override fun supports(authentication: Class<*>?): Boolean {
-        TODO("Not yet implemented")
-    }
+//    override fun authenticate(authentication: Authentication?): Authentication {
+//        val userDetails: AccountDetails =
+//            accountDetailsService.loadUserByUsername(
+//                authentication!!.principal as String
+//            ) as AccountDetails
+//
+//
+//        return UsernamePasswordAuthenticationToken(
+//            userDetails.getEmail(),
+//            userDetails.getPassword(),
+//            userDetails.getAuthorities()
+//        )
+//    }
+//
+//    override fun supports(authentication: Class<*>?): Boolean {
+//        TODO("Not yet implemented")
+//    }
 
 }

@@ -33,10 +33,6 @@ class BoardServiceImpl(
         )
         boardRepository.save(boardEntity1)
         val boardIds = mutableListOf<String>()
-//        boardRepository.findAll()
-//            .forEach {
-//                boardIds.add(it.boardId.toString())
-//            }
         boardRepositorySupport.get().forEach {
             boardIds.add(it.boardId.toString())
         }

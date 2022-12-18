@@ -6,10 +6,10 @@ import java.util.*
 /**
  * A Projection for the {@link com.minikode.jpa.entity.BoardEntity} entity
  */
-interface BoardInfo {
-    val createdDate: LocalDateTime?
-    val lastModifiedDate: LocalDateTime?
-    val boardId: UUID?
-    val title: String?
-    val description: String?
+class BoardInfo {
+    var createdDate: LocalDateTime? = null
+    val lastModifiedDate: LocalDateTime? = null
+    val boardId: UUID? = null
+    val title: String? = null
+    val description: String? = null
 }

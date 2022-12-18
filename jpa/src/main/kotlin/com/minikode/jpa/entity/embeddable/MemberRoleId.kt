@@ -5,7 +5,7 @@ import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
-class MemberRoleEmbed(
+class MemberRoleId(
     name: String,
     role: String,
 ) : Serializable {

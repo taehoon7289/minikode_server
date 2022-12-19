@@ -1,5 +1,6 @@
 package com.minikode.jpa.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Type
 import java.util.*
@@ -42,7 +43,8 @@ class MemberEntity(
     @Column(name = "email", nullable = true)
     var email = email
 
+    @JsonIgnore
     @OneToMany(mappedBy = "member", cascade = [CascadeType.ALL])
-    var memberRoles: MutableList<MemberRoleEntity> = ArrayList()
+    var roles: MutableList<MemberRoleEntity> = ArrayList()
 
 }

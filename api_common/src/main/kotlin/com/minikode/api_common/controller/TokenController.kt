@@ -4,7 +4,9 @@ import com.minikode.api_common.jwt.JwtTokenProvider
 import com.minikode.api_common.vo.LoginForm
 import com.minikode.api_common.vo.ResponseMapper
 import com.minikode.api_common.vo.ResponseVo
+import com.minikode.common.code.MemberRole
 import com.minikode.jpa.entity.MemberEntity
+import com.minikode.jpa.entity.MemberRoleEntity
 import com.minikode.jpa.repository.MemberRepository
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 
 @RestController
@@ -44,6 +47,11 @@ class TokenController(
             name = "회원1",
             email = "taehoon7289@gmail.com",
         )
+        val role = MemberRoleEntity(
+            role = MemberRole.USER,
+            member = memberEntity,
+        )
+        memberEntity.roles = mutableListOf(role)
         return ResponseMapper.ok(memberRepository.save(memberEntity))
     }
 

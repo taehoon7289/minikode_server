@@ -47,11 +47,16 @@ class TokenController(
             name = "회원1",
             email = "taehoon7289@gmail.com",
         )
-        val role = MemberRoleEntity(
+        val userRole = MemberRoleEntity(
             role = MemberRole.USER,
             member = memberEntity,
         )
-        memberEntity.roles = mutableListOf(role)
+        memberEntity.roles = mutableListOf(userRole)
+        val adminRole = MemberRoleEntity(
+            role = MemberRole.ADMIN,
+            member = memberEntity,
+        )
+        memberEntity.roles = mutableListOf(userRole, adminRole)
         return ResponseMapper.ok(memberRepository.save(memberEntity))
     }
 

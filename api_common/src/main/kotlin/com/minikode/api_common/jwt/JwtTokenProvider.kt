@@ -65,22 +65,4 @@ class JwtTokenProvider(
         }
     }
 
-//    override fun authenticate(authentication: Authentication?): Authentication {
-//        val userDetails: AccountDetails =
-//            accountDetailsService.loadUserByUsername(
-//                authentication!!.principal as String
-//            ) as AccountDetails
-//
-//
-//        return UsernamePasswordAuthenticationToken(
-//            userDetails.getEmail(),
-//            userDetails.getPassword(),
-//            userDetails.getAuthorities()
-//        )
-//    }
-//
-//    override fun supports(authentication: Class<*>?): Boolean {
-//        TODO("Not yet implemented")
-//    }
-
 }

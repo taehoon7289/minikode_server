@@ -22,13 +22,16 @@ class GlobalControllerAdvice {
     @ExceptionHandler(ServiceRuntimeException::class)
     fun serviceRuntimeException(ex: ServiceRuntimeException): ResponseEntity<ResponseVo> {
         return ResponseEntity.ok(ResponseVo(
-            code = ex.exCode.code,
-            message = ex.message ?: ex.exCode.msg,
+            code = ex.code,
+            message = ex.message,
         ))
     }
 
     @ExceptionHandler(ServiceException::class)
-    fun serviceException(): String {
-        return "serviceException"
+    fun serviceException(ex: ServiceException): ResponseEntity<ResponseVo> {
+        return ResponseEntity.ok(ResponseVo(
+            code = ex.code,
+            message = ex.message,
+        ))
     }
 }

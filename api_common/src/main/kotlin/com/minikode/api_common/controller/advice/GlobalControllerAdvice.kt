@@ -3,8 +3,6 @@ package com.minikode.api_common.controller.advice
 import com.minikode.api_common.vo.ResponseVo
 import com.minikode.common.exception.ServiceException
 import com.minikode.common.exception.ServiceRuntimeException
-import com.minikode.common.exception.code.CommonExCode
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 

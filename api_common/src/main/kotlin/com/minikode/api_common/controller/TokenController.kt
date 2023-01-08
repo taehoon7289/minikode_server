@@ -48,12 +48,12 @@ class TokenController(
             email = "taehoon7289@gmail.com",
         )
         val userRole = MemberRoleEntity(
-            role = MemberRole.USER,
+            role = MemberRole.ROLE_USER,
             member = memberEntity,
         )
         memberEntity.roles = mutableListOf(userRole)
         val adminRole = MemberRoleEntity(
-            role = MemberRole.ADMIN,
+            role = MemberRole.ROLE_ADMIN,
             member = memberEntity,
         )
         memberEntity.roles = mutableListOf(userRole, adminRole)

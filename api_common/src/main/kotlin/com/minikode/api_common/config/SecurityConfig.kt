@@ -30,8 +30,8 @@ class SecurityConfig(
         http.authorizeRequests()
             .antMatchers("/api/v1/token/**")
             .permitAll()
-            .antMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
-            .antMatchers("/api/v1/board/**").hasAuthority("USER")
+            .antMatchers("/api/v1/admin/**").hasAnyRole("ADMIN_ROLE", "TEST_ROLE")
+            .antMatchers("/api/v1/board/**").hasAnyAuthority("USER_ROLE", "TEST_ROLE")
             .and()
             .addFilterBefore(
                 JwtTokenFilter(jwtTokenProvider),

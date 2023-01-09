@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
-@RequestMapping("/api/v1/board")
+@RequestMapping("/api/common/v1/board")
 class BoardController(
     private val boardService: BoardService,
     private val cloudConfigConst: CloudConfigConst,

@@ -20,7 +20,7 @@ import java.util.*
 
 
 @RestController
-@RequestMapping("/api/v1/token")
+@RequestMapping("/api/common/v1/token")
 class TokenController(
     private val jwtTokenProvider: JwtTokenProvider,
     private val userDetailsService: UserDetailsService,

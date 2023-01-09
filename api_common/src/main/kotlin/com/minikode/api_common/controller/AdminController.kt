@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
-@RequestMapping("/api/v1/admin")
+@RequestMapping("/api/common/v1/admin")
 class AdminController(
     private val boardService: BoardService,
     private val cloudConfigConst: CloudConfigConst,
